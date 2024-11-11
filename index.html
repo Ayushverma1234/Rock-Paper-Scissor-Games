@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+ 
+</head>
+
+<body>
+    <h1>ROCK PAPER SCISSOR GAME</h1>
+    <div class="container">
+        <div class="btn-img">
+        <button class="btn" onclick="
+            let userValue = `stone`;
+            let computerChoice = computerChoiceFunction();    
+            let result = resultAns(userValue,computerChoice);  
+            showResult(userValue,computerChoice,result);    
+
+            ">
+         <img src="stone1.png" alt="stone-image" class="image" >
+        </button>
+        <button class="btn" onclick="
+           userValue = `paper`;
+           computerChoice = computerChoiceFunction();        
+           result = resultAns(userValue,computerChoice);        
+           showResult(userValue,computerChoice,result);    
+        
+        ">
+              <img src="paper.png" alt="paper-image" class="image">
+        </button>
+        <button class="btn" onclick="
+          userValue = `scissor`;
+         computerChoice = computerChoiceFunction(); 
+         result = resultAns(userValue,computerChoice);    
+         showResult(userValue,computerChoice,result) ;
+        
+        ">
+             <img src="scissors.png" alt="scissor-image" class="image">
+        </button>
+    </div>
+<h3 class="user-move"></h3>
+<h3 class="computer-move"></h3>
+<h3 class="result"></h3>
+<h3 class="score"></h3>
+
+
+
+
+        <button class="btn-4"  onclick="
+        localStorage.clear();
+        resetScore();
+        
+        ">
+            Reset
+        </button>
+    </div>
+    <script>
+        let scoreStr = localStorage.getItem('user');
+        resetScore(scoreStr);
+        function resetScore(scoreStr) {
+            if (scoreStr) {
+                score = JSON.parse(scoreStr);
+            }
+
+            else {
+
+                score = {
+                    win: 0,
+                    lost: 0,
+                    tie: 0,
+                }
+            }
+            showResult();
+        }
+
+        function displayScore() {
+            return `TOTAL CHANCES: ${score.win+score.lost+score.tie}
+
+            WINS : ${score.win} 
+
+            LOST : ${score.lost} 
+
+            TIES : ${score.tie}`;
+        }
+
+        function showResult(userValue,computerChoice,result) {
+           document.querySelector(".user-move").innerText = userValue ? `User has choosen ${userValue} `: " "; 
+
+           document.querySelector(".computer-move").innerText = computerChoice ? ` Computer has choosen ${computerChoice} ` : " "; 
+
+           document.querySelector(".result").innerText = result ? result : " "; 
+
+           document.querySelector(".score").innerText =displayScore(); 
+
+        
+            localStorage.setItem('user', JSON.stringify(score));
+        }
+
+
+
+        function resultAns(userValue, computerChoice) {
+            if (userValue === "stone") {
+                if (computerChoice === "stone") {
+                    score.tie++;
+                    return `It's a tie`;
+                }
+                else if (computerChoice === "paper") {
+                    score.lost++;
+                    return `User lost`;
+                }
+                else if (computerChoice === "scissor") {
+                    score.win++;
+                    return `User won`;
+                }
+
+            }
+            if (userValue === "paper") {
+                if (computerChoice === "stone") {
+                    score.win++;
+                    return `User won`;
+                }
+                else if (computerChoice === "paper") {
+                    score.tie++;
+                    return `It's a tie`;
+                }
+                else if (computerChoice === "scissor") {
+                    score.lost++;
+                    return `User lost`;
+                }
+
+            }
+            if (userValue === "scissor") {
+                if (computerChoice === "stone") {
+                    score.lost++;
+                    return `User lost`;
+                }
+                else if (computerChoice === "paper") {
+                    score.win++;
+                    return `User won`;
+                }
+                else if (computerChoice === "scissor") {
+                    score.tie++;
+                    return `It's a tie`;
+                }
+
+            }
+
+
+        }
+
+        function computerChoiceFunction() {
+            let computerValue = Math.random() * 3;
+            if (computerValue <= 1) {
+                return `stone`;
+            }
+            else if (computerValue > 1 && computerValue <= 2) {
+                return `paper`;
+            }
+            else if (computerValue <= 3 && computerValue > 2) {
+                return `scissor`;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
